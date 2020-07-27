@@ -6,13 +6,13 @@
 
 ## 消息类型及DEMO
 - text 类型  
-  ![]()
+  ![](https://github.com/LZC6244/DingTalkBot/blob/master/imgs/01.png)
 
 - link 类型  
-  ![]()
+  ![](https://github.com/LZC6244/DingTalkBot/blob/master/imgs/02.png)
   
 - markdown 类型  
-  ![]()
+  ![](https://github.com/LZC6244/DingTalkBot/blob/master/imgs/03.png)
   
   **ps:** 目前只支持md语法的子集，具体支持的元素如下（钉钉限定）
     
@@ -48,13 +48,13 @@
   ```  
 
 - 整体跳转 ActionCard 类型  
-  ![]()
+  ![](https://github.com/LZC6244/DingTalkBot/blob/master/imgs/04.png)
   
 - 独立跳转 ActionCard 类型  
-  ![]()
+  ![](https://github.com/LZC6244/DingTalkBot/blob/master/imgs/05.png)
   
 - FeedCard 类型  
-  ![]()
+  ![](https://github.com/LZC6244/DingTalkBot/blob/master/imgs/06.png)
 
 # 参考链接
 

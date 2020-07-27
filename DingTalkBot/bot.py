@@ -87,7 +87,7 @@ class DingTalkBot(object):
 
         return response
 
-    def send_text(self, content: str = None, at_mobiles: list = None, at_all=False, q_timeout: int = 60,
+    def send_text(self, content: str, at_mobiles: list = None, at_all=False, q_timeout: int = 60,
                   r_timeout: int = 60):
         """
         发送 text 类型消息
@@ -101,11 +101,11 @@ class DingTalkBot(object):
         :param r_timeout: requests 超时时间
         :return: 发送钉钉消息后返回的响应
         """
-        if not content:
-            raise ValueError('[content] must pass parameters...')
+        if not isinstance(content, str):
+            raise ValueError('[content] type must be string...')
         at_mobiles = [] if not isinstance(at_mobiles, list) else at_mobiles
         # 自动从文本内容中匹配出 @某人 的地方将其加入 at_mobiles
-        at_mobiles_from_content = re.findall('@(\d+)', content)
+        at_mobiles_from_content = re.findall('@(\\d+)', content)
         msg = {
             'msgtype': 'text',
             'text': {
@@ -116,22 +116,22 @@ class DingTalkBot(object):
                 'isAtAll': at_all
             }
         }
-        self._send_msg(msg, q_timeout, r_timeout)
+        return self._send_msg(msg, q_timeout, r_timeout)
 
-    def send_link(self, title: str = None, text: str = None, pic_url: str = None, msg_url: str = None,
+    def send_link(self, title: str, text: str, msg_url: str, pic_url: str = None,
                   q_timeout: int = 60, r_timeout: int = 60):
         """
         发送 link 类型消息
-        :param title: str,消息内容（如果太长只会部分展示）
-        :param text: str,消息标题
-        :param pic_url: str,展示图片的 URL
+        :param title: str,消息标题
+        :param text: str,消息内容（如果太长只会部分展示）
         :param msg_url: str,点击消息跳转的 URL
+        :param pic_url: str,展示图片的 URL
         :param q_timeout: 队列等待超时时间
         :param r_timeout: requests 超时时间
         :return: 发送钉钉消息后返回的响应
         """
-        if not all([title, text, msg_url]):
-            raise ValueError('[title, text, msg_url] must pass parameters...')
+        if not isinstance(title, str) or not isinstance(text, str) or not isinstance(msg_url, str):
+            raise ValueError('[title, text, msg_url] type must be string...')
         msg = {
             'msgtype': 'link',
             'link': {
@@ -143,7 +143,7 @@ class DingTalkBot(object):
         }
         return self._send_msg(msg, q_timeout, r_timeout)
 
-    def send_markdown(self, title: str = None, text: str = None, at_mobiles: list = None, at_all=False,
+    def send_markdown(self, title: str, text: str, at_mobiles: list = None, at_all=False,
                       q_timeout: int = 60, r_timeout: int = 60):
         """
         发送 markdown 类型消息 （钉钉目前仅支持部分 Markdown 语法，详情请看官方文档）
@@ -158,11 +158,11 @@ class DingTalkBot(object):
         :param r_timeout: requests 超时时间
         :return: 发送钉钉消息后返回的响应
         """
-        if not all([title, text]):
-            raise ValueError('[title, text] must pass parameters...')
+        if not isinstance(title, str) or not isinstance(text, str):
+            raise ValueError('[title, text] type must be string...')
         at_mobiles = [] if not isinstance(at_mobiles, list) else at_mobiles
         # 自动从文本内容中匹配出 @某人 的地方将其加入 at_mobiles
-        at_mobiles_from_text = re.findall('@(\d+)', text)
+        at_mobiles_from_text = re.findall('@(\\d+)', text)
         msg = {
             'msgtype': 'markdown',
             'markdown': {
@@ -176,8 +176,8 @@ class DingTalkBot(object):
         }
         return self._send_msg(msg, q_timeout, r_timeout)
 
-    def send_entire_action_card(self, title: str = None, text: str = None, single_title: str = None,
-                                single_url: str = None, q_timeout: int = 60, r_timeout: int = 60):
+    def send_entire_action_card(self, title: str, text: str, single_title: str, single_url: str,
+                                q_timeout: int = 60, r_timeout: int = 60):
         """
         发送 整体跳转ActionCard 类型消息
         btnOrientation 参数按官方文档设置无效，故在此不对其进行配置（此类型消息就该无效按其文档意思）
@@ -189,8 +189,9 @@ class DingTalkBot(object):
         :param r_timeout: requests 超时时间
         :return: 发送钉钉消息后返回的响应
         """
-        if not all([title, text, single_title, single_url]):
-            raise ValueError('[title, text, single_title, single_url] must pass parameters...')
+        if not isinstance(title, str) or not isinstance(text, str) or not isinstance(single_title, str) \
+                or not isinstance(single_url, str):
+            raise ValueError('[title, text, single_title, single_url] type must be string...')
         msg = {
             'msgtype': 'actionCard',
             'actionCard': {
@@ -205,7 +206,7 @@ class DingTalkBot(object):
         }
         return self._send_msg(msg, q_timeout, r_timeout)
 
-    def send_alone_action_card(self, title: str = None, text: str = None, btn_li: list = None,
+    def send_alone_action_card(self, title: str, text: str, btn_li: list,
                                btn_orientation: str = '0', q_timeout: int = 60, r_timeout: int = 60):
         """
         发送 独立跳转ActionCard 类型消息
@@ -220,14 +221,16 @@ class DingTalkBot(object):
         :param r_timeout: requests 超时时间
         :return: 发送钉钉消息后返回的响应
         """
-        if not all([title, text, btn_li]):
-            raise ValueError('[title, text, btn_li] must pass parameters...')
+        if not isinstance(title, str) or not isinstance(text, str):
+            raise ValueError('[title, text] type must be string...')
+        if not isinstance(btn_li, list):
+            raise ValueError('[btn_li] type must be list...')
         btn_li_correct = True
         for i in btn_li:
             if 'title' not in i or 'actionURL' not in i:
                 btn_li_correct = False
                 break
-        if not isinstance(btn_li, list) or not btn_li_correct:
+        if not btn_li_correct:
             raise ValueError('The "btn_li" must be a list like [{"title": "xx", "actionURL": "xx"},... ]')
 
         msg = {
@@ -241,7 +244,7 @@ class DingTalkBot(object):
         }
         return self._send_msg(msg, q_timeout, r_timeout)
 
-    def send_feed_card(self, link_li: list = None, q_timeout: int = 60, r_timeout: int = 60):
+    def send_feed_card(self, link_li: list, q_timeout: int = 60, r_timeout: int = 60):
         """
         发送 FeedCard 类型消息
         :param link_li: list,链接列表,如：[{'title': 'xx', 'messageURL': 'xx', 'picURL': 'xx'},... ]
@@ -253,14 +256,14 @@ class DingTalkBot(object):
         :param r_timeout: requests 超时时间
         :return: 发送钉钉消息后返回的响应
         """
-        if not link_li:
-            raise ValueError('[link_li] must pass parameters...')
+        if not isinstance(link_li, list):
+            raise ValueError('[link_li] type must be list...')
         link_li_correct = True
         for i in link_li:
             if 'title' not in i or 'messageURL' not in i or 'picURL' not in i:
                 link_li_correct = False
                 break
-        if not isinstance(link_li, list) or not link_li_correct:
+        if not link_li_correct:
             raise ValueError(
                 'The "link_li" must be a list like [{"title": "xx", "messageURL": "xx", "picURL": "xx"},... ]')
         msg = {
@@ -279,62 +282,3 @@ class DingTalkError(Exception):
 
 class SendError(Exception):
     pass
-
-
-if __name__ == '__main__':
-    # TestBot
-    dt_bot = DingTalkBot(
-        web_hook='xxx',
-        secret='xxx')
-
-    # content_text = '今天天气真好，是么？'
-    # dt_bot.send_text(content_text)
-
-    # dt_bot.send_link(text='这个即将发布的新版本，创始人xx称它为红树林。而在此之前，每当面临重大升级，产品经理们都会取一个应景的代号，这一次，为什么是红树林',
-    #                  title='时代的火车向前开',
-    #                  pic_url='https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png',
-    #                  msg_url='https://www.dingtalk.com/s?__biz=MzA4NjMwMTA2Ng==&mid=2650316842&idx=1&sn=60da3ea2b29f1dcc43a7c8e4a7c97a16&scene=2&srcid=09189AnRJEdIiWVaKltFzNTw&from=timeline&isappinstalled=0&key=&ascene=2&uin=&devicetype=android-23&version=26031933&nettype=WIFI')
-
-    # dt_bot.send_markdown(title='杭州天气',
-    #                      text='#### 杭州天气 @150XXXXXXXX \n> 9度，西北风1级，空气良89，相对温度73%\n> ![screenshot](https://img.alicdn.com/tfs/TB1NwmBEL9TBuNjy1zbXXXpepXa-2400-1218.png)\n> ###### 10点20分发布 [天气](https://www.dingtalk.com) \n')
-
-    #    dt_bot.send_entire_action_card(title='乔布斯 20 年前想打造一间苹果咖啡厅，而它正是 Apple Store 的前身',
-    #                                   text="""![screenshot](https://gw.alicdn.com/tfs/TB1ut3xxbsrBKNjSZFpXXcXhFXa-846-786.png)
-    # ### 乔布斯 20 年前想打造的苹果咖啡厅
-    # Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划""",
-    #                                   single_title='阅读全文',
-    #                                   single_url='https://www.dingtalk.com/')
-
-    #    dt_bot.send_alone_action_card(title='乔布斯 20 年前想打造一间苹果咖啡厅，而它正是 Apple Store 的前身',
-    #                                  text="""![screenshot](https://gw.alicdn.com/tfs/TB1ut3xxbsrBKNjSZFpXXcXhFXa-846-786.png)
-    # ### 乔布斯 20 年前想打造的苹果咖啡厅
-    # Apple Store 的设计正从原来满满的科技感走向生活化，而其生活化的走向其实可以追溯到 20 年前苹果一个建立咖啡馆的计划""",
-    #                                  btn_orientation='0',
-    #                                  btn_li=[
-    #                                      {
-    #                                          "title": "内容不错",
-    #                                          "actionURL": "https://www.dingtalk.com/"
-    #                                      },
-    #                                      {
-    #                                          "title": "不感兴趣",
-    #                                          "actionURL": "https://www.dingtalk.com/"
-    #                                      },
-    #                                      {
-    #                                          "title": "傻瓜",
-    #                                          "actionURL": "https://www.dingtalk.com/",
-    #                                          'hh': 1
-    #                                      }
-    #                                  ])
-
-    # dt_bot.send_feed_card(link_li=[
-    #     {
-    #         "title": "时代的火车向前开",
-    #         "messageURL": "https://www.dingtalk.com/s?__biz=MzA4NjMwMTA2Ng==&mid=2650316842&idx=1&sn=60da3ea2b29f1dcc43a7c8e4a7c97a16&scene=2&srcid=09189AnRJEdIiWVaKltFzNTw&from=timeline&isappinstalled=0&key=&ascene=2&uin=&devicetype=android-23&version=26031933&nettype=WIFI",
-    #         "picURL": "https://gw.alicdn.com/tfs/TB1ayl9mpYqK1RjSZLeXXbXppXa-170-62.png"
-    #     },
-    #     {
-    #         "title": "时代的火车向前开2",
-    #         "messageURL": "https://www.dingtalk.com/s?__biz=MzA4NjMwMTA2Ng==&mid=2650316842&idx=1&sn=60da3ea2b29f1dcc43a7c8e4a7c97a16&scene=2&srcid=09189AnRJEdIiWVaKltFzNTw&from=timeline&isappinstalled=0&key=&ascene=2&uin=&devicetype=android-23&version=26031933&nettype=WIFI",
-    #         "picURL": "https://gw.alicdn.com/tfs/TB1ayl9mpYqK1RjSZLeXXbXppXa-170-62.png"
-    #     }
-    # ])

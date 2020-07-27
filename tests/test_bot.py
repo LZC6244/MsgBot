@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import sys
-import pytest
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from DingTalkBot.bot import DingTalkBot
 
 
@@ -13,10 +9,8 @@ class TestDingTalkBot(object):
     @classmethod
     def setup_class(cls):
         env = os.environ
-        # web_hook = env.get('web_hook')
-        # secret = env.get('secret')
-        web_hook = 'https://oapi.dingtalk.com/robot/send?access_token=9dd9b72c4dcc3747b754c9fadf5f3ecab8c241484f80447deec24f7825b39133'
-        secret = 'SECc6416b47d2913096bc3b417c3dfd51be7caf49a934fc789aefc35ae47bdd551f'
+        web_hook = env.get('web_hook')
+        secret = env.get('secret')
         cls.bot = DingTalkBot(web_hook, secret)
 
     def test_send_text(self):
@@ -80,5 +74,4 @@ class TestDingTalkBot(object):
 if __name__ == '__main__':
     bot = TestDingTalkBot()
     bot.setup_class()
-    # bot.test_send_text()
-    bot.test_send_entire_action_card()
+    bot.test_send_text()
