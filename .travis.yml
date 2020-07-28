@@ -5,4 +5,7 @@ install:
   - pip install -r requirements.txt
   - pip install pytest pytest-cov
 script:
-  - pytest --cov=./
+  - pytest
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
