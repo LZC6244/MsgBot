@@ -3,6 +3,9 @@ python:
   - '3.7.5'
 install:
   - pip install -r requirements.txt
-  - pip install pytest pytest-cov
+  - pip install --user codecov
 script:
-  - pytest --cov=./
+  - pytest
+
+after_success:
+  - codecov
