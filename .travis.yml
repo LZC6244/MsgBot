@@ -5,6 +5,8 @@ install:
   - pip install -r requirements.txt
 script:
   - pytest
+  - pip install codecov
+  - pip install coverage
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - codecov
