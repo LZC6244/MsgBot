@@ -1,8 +1,13 @@
 # DingTalkBot
+![](https://travis-ci.org/LZC6244/DingTalkBot.svg?branch=master)  
+
 群机器人是钉钉群的高级扩展功能。群机器人可以将第三方服务的信息聚合到群聊中，实现自动化的信息同步。
 
 - 开发环境： `python 3.7.5`
 - 使用需求：起码拥有一个钉钉群聊天机器人（[如何申请](#dingtalk)）
+
+## 安装
+> pip install DingTalkBot
 
 ## 消息类型及DEMO
 - text 类型  

@@ -2,25 +2,25 @@
 
 import setuptools
 
-with open("README.md", "r") as fh:
+with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="DingTalkBot",
-    version="0.0.1",
-    author="maida",
-    author_email="maida6244@gmail.com",
-    description="钉钉群聊天机器人",
+    name='DingTalkBot',
+    version='0.0.1',
+    author='maida',
+    author_email='maida6244@gmail.com',
+    description='钉钉群聊天机器人',
     long_description=long_description,
-    long_description_content_type="text/markdown",
-    url="https://github.com/LZC6244/DingTalkBot",
+    long_description_content_type='text/markdown',
+    url='https://github.com/LZC6244/DingTalkBot',
     packages=setuptools.find_packages(),
     install_requires=[
         'requests'
     ],
     classifiers=[
-        "Programming Language :: Python :: 3.7.5",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
+        'Programming Language :: Python :: 3.7',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
     ],
 )
