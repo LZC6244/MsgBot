@@ -1,5 +1,5 @@
 # DingTalkBot
-![](https://travis-ci.org/LZC6244/DingTalkBot.svg?branch=master)  
+![](https://travis-ci.org/LZC6244/DingTalkBot.svg?branch=master)[![codecov](https://codecov.io/gh/LZC6244/DingTalkBot/branch/master/graph/badge.svg)](https://codecov.io/gh/LZC6244/DingTalkBot)  
 
 群机器人是钉钉群的高级扩展功能。群机器人可以将第三方服务的信息聚合到群聊中，实现自动化的信息同步。
 
