@@ -69,9 +69,3 @@ class TestDingTalkBot(object):
             },
         ]
         assert isinstance(self.bot.send_feed_card(link_li), dict)
-
-
-if __name__ == '__main__':
-    bot = TestDingTalkBot()
-    bot.setup_class()
-    bot.test_send_text()
