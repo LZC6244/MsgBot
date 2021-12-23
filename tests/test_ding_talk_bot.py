@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from DingTalkBot.bot import DingTalkBot
+from MsgBot import DingTalkBot
 
 
 class TestDingTalkBot(object):

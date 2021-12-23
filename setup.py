@@ -6,11 +6,11 @@ with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='DingTalkBot',
-    version='0.0.1',
+    name='MsgBot',
+    version='0.1',
     author='maida',
     author_email='maida6244@gmail.com',
-    description='钉钉群聊天机器人',
+    description='Python 实现的一个消息通知助手。可以使用钉钉群聊天机器人或者微信。',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/LZC6244/DingTalkBot',
@@ -19,7 +19,7 @@ setuptools.setup(
         'requests'
     ],
     classifiers=[
-        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
