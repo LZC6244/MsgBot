@@ -1,5 +1,4 @@
 # MsgBot
-![](https://travis-ci.org/LZC6244/DingTalkBot.svg?branch=master)[![codecov](https://codecov.io/gh/LZC6244/DingTalkBot/branch/master/graph/badge.svg)](https://codecov.io/gh/LZC6244/DingTalkBot)  
 Python 实现的一个消息通知助手。可以使用钉钉群聊天机器人或者微信。
 
 - 开发环境： `python 3.9`
@@ -127,10 +126,13 @@ wx_com_bot.send_msg_text(agent_id='agent_id', content=msg, to_user='to_user')
 - text 文本类型（可使用超链、换行）  
   ![](https://github.com/LZC6244/MsgBot/blob/master/imgs/wx_com/01.png)
   
+- Markdown 类型（该类型仅能在企业微信客户端查看）  
+  ![](https://github.com/LZC6244/MsgBot/blob/master/imgs/wx_com/02.png)
+  
 
-**应用支持推送文本、图片、视频、文件、图文、小成、模板卡片等类型**
+**应用支持推送文本、图片、视频、文件、图文、小程序、模板卡片等类型**
 
-目前**仅实现**了文本类型，其余类型可根据实际需要和文档进行实现
+目前**仅实现**了文本、Markdown类型，其余类型可根据实际需要和文档进行实现
 
 # 参考链接
 

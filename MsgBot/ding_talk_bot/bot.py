@@ -11,6 +11,7 @@ import requests
 from time import sleep
 from urllib import parse
 from datetime import datetime, timedelta
+from MsgBot.exceptions import SendError, DingTalkError
 
 logger = logging.getLogger(__name__)
 
@@ -274,11 +275,3 @@ class DingTalkBot(object):
         }
 
         return self._send_msg(msg, q_timeout, r_timeout)
-
-
-class DingTalkError(Exception):
-    pass
-
-
-class SendError(Exception):
-    pass

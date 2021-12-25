@@ -9,8 +9,8 @@ class TestDingTalkBot(object):
     @classmethod
     def setup_class(cls):
         env = os.environ
-        web_hook = env.get('web_hook')
-        secret = env.get('secret')
+        web_hook = env.get('DING_TALK_WEB_HOOK')
+        secret = env.get('DING_TALK_SECRET')
         cls.bot = DingTalkBot(web_hook, secret)
 
     def test_send_text(self):
