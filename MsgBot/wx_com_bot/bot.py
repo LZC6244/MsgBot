@@ -5,10 +5,6 @@ import requests
 from datetime import datetime, timedelta
 from MsgBot.exceptions import SendError, WxComError
 
-logging.basicConfig(format='%(asctime)s [%(name)s] %(levelname)s: %(message)s',
-                    level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
-logger = logging.getLogger(__name__)
-
 
 class WxComBot(object):
     """
@@ -29,24 +25,27 @@ class WxComBot(object):
         self.corp_id = corp_id
         self.corp_secret = corp_secret
         self.expires_at = datetime.now()
+        logging.basicConfig(format='%(asctime)s [%(name)s] %(levelname)s: %(message)s',
+                            level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
+        self.logger = logging.getLogger(__name__)
 
     def get_token(self, **kwargs):
-        logger.info('开始获取 token')
+        self.logger.info('开始获取 token')
         now = datetime.now()
         url = f'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={self.corp_id}&corpsecret={self.corp_secret}'
         r = requests.get(url, **kwargs)
         data = json.loads(r.text)
         if data['errcode'] != 0:
-            logger.error('获取 token 失败！请检查！')
+            self.logger.error('获取 token 失败！请检查！')
         self.expires_at = now + timedelta(seconds=data['expires_in'])
         self.token = data['access_token']
-        logger.info('获取 token 成功')
+        self.logger.info('获取 token 成功')
 
     def _send_msg(self, form_data: dict, **kwargs):
         if not form_data.get('touser') and not form_data.get('toparty') and not form_data.get('totag'):
             raise ValueError('[to_user,to_party,to_tag] 不能同时为空')
         if len(form_data.get('content', '').encode()) > 2048:
-            logger.warning(f'消息长度超出 2048 字节 ，消息将被企业微信截断')
+            self.logger.warning(f'消息长度超出 2048 字节 ，消息将被企业微信截断')
         now = datetime.now()
         if now >= self.expires_at:
             self.get_token()

@@ -5,15 +5,12 @@ import hmac
 import json
 import queue
 import base64
-import logging
 import hashlib
 import requests
 from time import sleep
 from urllib import parse
 from datetime import datetime, timedelta
 from MsgBot.exceptions import SendError, DingTalkError
-
-logger = logging.getLogger(__name__)
 
 
 class DingTalkBot(object):

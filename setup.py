@@ -7,7 +7,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 setuptools.setup(
     name='MsgBot',
-    version='0.1',
+    version='0.1.2',
     author='maida',
     author_email='maida6244@gmail.com',
     description='Python 实现的一个消息通知助手。可以使用钉钉群聊天机器人或者微信。',
