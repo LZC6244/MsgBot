@@ -64,13 +64,13 @@ class DingTalkBot(object):
         now = datetime.now()
         if self.secret:
             # 提前 2 分钟更换，避免过于极限
-            if (now - self.sign_time).seconds >= 3480:
+            if (now - self.sign_time).total_seconds >= 3480:
                 self.update_web_hook(now)
         self.time_queue.put(now, timeout=q_timeout)
         if self.time_queue.full():
             # 当队列已满20条时，取20条消息中最早的时间
             earliest_time = self.time_queue.get(timeout=q_timeout)
-            time_diff = (now - earliest_time).seconds
+            time_diff = (now - earliest_time).total_seconds
             # 判断提前 2 秒，避免过于极限
             if time_diff <= 58:
                 sleep(60 - time_diff)
